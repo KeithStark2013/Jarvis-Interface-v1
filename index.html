@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>J.A.R.V.I.S. Interface v1</title>
+
+  <style>
+    :root {
+      --cyan: #35eaff;
+      --blue: #0788ff;
+      --bg: #050b14;
+      --panel: rgba(8, 25, 42, 0.88);
+      --muted: #8aa9bb;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(ellipse at 50% 0%, #102c43 0%, transparent 55%),
+        var(--bg);
+      color: #eafaff;
+      font-family: Arial, sans-serif;
+      padding: 24px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid #1b5268;
+      padding-bottom: 16px;
+    }
+
+    .brand {
+      color: var(--cyan);
+      font-size: 20px;
+      font-weight: bold;
+      letter-spacing: 3px;
+    }
+
+    .online {
+      color: #6cffb0;
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 35px auto;
+      text-align: center;
+    }
+
+    .eyebrow {
+      color: var(--cyan);
+      letter-spacing: 4px;
+      font-size: 11px;
+    }
+
+    h1 {
+      font-size: clamp(30px, 6vw, 52px);
+      margin: 12px 0;
+      letter-spacing: 2px;
+    }
+
+    .subtitle { color: var(--muted); }
+
+    .reactor {
+      width: 150px;
+      height: 150px;
+      margin: 32px auto;
+      border: 3px solid var(--cyan);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 0 20px #00d9ff66,
+                  inset 0 0 20px #00d9ff44;
+      animation: pulse 3s ease-in-out infinite;
+    }
+
+    .reactor-core {
+      width: 78px;
+      height: 78px;
+      border: 2px solid #b9fbff;
+      border-radius: 50%;
+      background: radial-gradient(circle, white, var(--cyan) 35%, #0874bd 75%);
+      box-shadow: 0 0 35px var(--cyan);
+    }
+
+    @keyframes pulse {
+      50% {
+        box-shadow: 0 0 38px #00d9ff99,
+                    inset 0 0 28px #00d9ff66;
+      }
+    }
+
+    .panels {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 28px 0;
+      text-align: left;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid #18516b;
+      border-radius: 10px;
+      padding: 18px;
+    }
+
+    .panel small {
+      color: var(--muted);
+      letter-spacing: 1px;
+    }
+
+    .panel p {
+      color: var(--cyan);
+      font-size: 15px;
+      margin-bottom: 0;
+    }
+
+    .voice-panel {
+      border: 1px solid #23718b;
+      background: var(--panel);
+      border-radius: 14px;
+      padding: 22px;
+      margin-top: 20px;
+    }
+
+    #voiceButton {
+      border: 1px solid var(--cyan);
+      background: #063148;
+      color: white;
+      border-radius: 8px;
+      padding: 15px 24px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    #voiceButton:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+
+    #voiceButton.listening {
+      background: #9a2639;
+      border-color: #ff7c8d;
+      animation: pulse 1s infinite;
+    }
+
+    .secondary {
+      background: transparent;
+      border: 1px solid #28718a;
+      color: #d9f8ff;
+      border-radius: 7px;
+      padding: 11px 14px;
+      margin: 5px;
+      cursor: pointer;
+    }
+
+    #status, #heard {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+      overflow-wrap: anywhere;
+    }
+
+    #heard { color: white; }
+
+    .commands {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.9;
+    }
+
+    .console {
+      background: #02070c;
+      border: 1px solid #17445a;
+      border-radius: 10px;
+      padding: 16px;
+      text-align: left;
+      margin-top: 18px;
+      min-height: 90px;
+      color: #75e9ff;
+      font-family: monospace;
+      font-size: 13px;
+      overflow-wrap: anywhere;
+    }
+
+    footer {
+      color: #547386;
+      font-size: 11px;
+      margin-top: 28px;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 15px; }
+      .panels { grid-template-columns: 1fr; }
+      .panel { padding: 14px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="brand">J.A.R.V.I.S.</div>
+    <div class="online">● INTERFACE ONLINE</div>
+  </header>
+
+  <main>
+    <div class="eyebrow">STARK INDUSTRIES // PERSONAL AI</div>
+    <h1>GOOD EVENING, SIR.</h1>
+    <div class="subtitle">Just A Rather Very Intelligent System</div>
+
+    <div class="reactor" aria-label="Animated reactor graphic">
+      <div class="reactor-core"></div>
+    </div>
+
+    <div class="panels">
+      <div class="panel">
+        <small>CORE SYSTEM</small>
+        <p id="coreStatus">STANDBY</p>
+      </div>
+      <div class="panel">
+        <small>VOICE SYSTEM</small>
+        <p id="voiceStatus">READY</p>
+      </div>
+      <div class="panel">
+        <small>SECURITY</small>
+        <p id="securityStatus">SIMULATION ONLY</p>
+      </div>
+    </div>
+
+    <section class="voice-panel">
+      <div class="eyebrow">VOICE COMMAND MODULE</div>
+      <h2>At your service, sir.</h2>
+
+      <button id="voiceButton" type="button">
+        🎙 ACTIVATE MICROPHONE
+      </button>
+
+      <p id="status" role="status">
+        Press the button and allow microphone access when prompted.
+      </p>
+
+      <p>Recognised command:</p>
+      <div id="heard">Awaiting voice input...</div>
+
+      <button class="secondary" id="speakButton" type="button">
+        TEST VOICE
+      </button>
+      <button class="secondary" id="stopButton" type="button">
+        SILENCE
+      </button>
+
+      <div class="commands">
+        <p><strong>Try saying:</strong></p>
+        "Jarvis, initialise systems"<br>
+        "Jarvis, run diagnostics"<br>
+        "Jarvis, check the time"<br>
+        "Jarvis, system status"<br>
+        "Jarvis, go to sleep"
+      </div>
+    </section>
+
+    <section class="console" id="console" aria-live="polite">
+      &gt; Interface loaded.<br>
+      &gt; Voice module awaiting activation.
+    </section>
+
+    <footer>
+      J.A.R.V.I.S. INTERFACE V1 // PROTOTYPE
+    </footer>
+  </main>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+
+    const voiceButton = $("voiceButton");
+    const statusText = $("status");
+    const heardText = $("heard");
+    const consoleBox = $("console");
+
+    const SpeechRecognition =
+      window.SpeechRecognition ||
+      window.webkitSpeechRecognition;
+
+    let recognition = null;
+    let isListening = false;
+
+    function log(message) {
+      const line = document.createElement("div");
+      line.textContent = "> " + message;
+      consoleBox.prepend(line);
+
+      while (consoleBox.children.length > 8) {
+        consoleBox.lastElementChild.remove();
+      }
+    }
+
+    function speak(message) {
+      if (!("speechSynthesis" in window)) {
+        statusText.textContent =
+          "Speech output is not supported by this browser.";
+        return;
+      }
+
+      window.speechSynthesis.cancel();
+
+      const utterance = new SpeechSynthesisUtterance(message);
+      utterance.lang = "en-GB";
+      utterance.rate = 0.92;
+      utterance.pitch = 0.85;
+      utterance.volume = 1;
+
+      window.speechSynthesis.speak(utterance);
+    }
+
+    function reply(message) {
+      statusText.textContent = message;
+      log(message);
+      speak(message);
+    }
+
+    function stopListening() {
+      if (recognition && isListening) {
+        recognition.stop();
+      }
+    }
+
+    function runCommand(rawCommand) {
+      const command = rawCommand
+        .toLowerCase()
+        .replace(/[.,!?]/g, "")
+        .trim();
+
+      heardText.textContent = rawCommand;
+
+      if (command.includes("initialise systems") ||
+          command.includes("initialize systems") ||
+          command.includes("start systems")) {
+        $("coreStatus").textContent = "OPERATIONAL";
+        reply("Systems initialised. All interface modules are standing by, sir.");
+      } else if (command.includes("run diagnostics") ||
+                 command.includes("diagnostics")) {
+        $("coreStatus").textContent = "DIAGNOSTICS COMPLETE";
+        $("securityStatus").textContent = "DEMO CHECK COMPLETE";
+        reply("Diagnostics complete. The interface is responding normally. This is a simulated check, sir.");
+      } else if (command.includes("check the time") ||
+                 command === "time" ||
+                 command.includes("what time")) {
+        const time = new Date().toLocaleTimeString("en-GB", {
+          hour: "2-digit",
+          minute: "2-digit"
+        });
+        reply("The current time on this device is " + time + ", sir.");
+      } else if (command.includes("system status") ||
+                 command.includes("status report")) {
+        reply("The JARVIS interface is online. Voice commands are enabled when supported. Real AI integration is not connected yet, sir.");
+      } else if (command.includes("go to sleep") ||
+                 command.includes("stand by") ||
+                 command.includes("standby")) {
+        $("coreStatus").textContent = "STANDBY";
+        reply("Entering standby mode. Press the microphone button when you need me, sir.");
+      } else if (command.includes("hello") ||
+                 command.includes("jarvis")) {
+        reply("Yes, sir. I'm listening.");
+      } else if (command.includes("help") ||
+                 command.includes("commands")) {
+        reply("You can ask me to initialise systems, run diagnostics, check the time, report system status, or go to sleep, sir.");
+      } else {
+        reply("I heard you, sir, but that command is not programmed yet.");
+      }
+    }
+
+    if (!SpeechRecognition) {
+      voiceButton.disabled = true;
+      statusText.textContent =
+        "Speech recognition is unavailable in this browser. Try a supported browser.";
+      $("voiceStatus").textContent = "UNAVAILABLE";
+    } else {
+      recognition = new SpeechRecognition();
+      recognition.lang = "en-GB";
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      recognition.onstart = () => {
+        isListening = true;
+        voiceButton.classList.add("listening");
+        voiceButton.textContent = "● LISTENING...";
+        $("voiceStatus").textContent = "LISTENING";
+        statusText.textContent = "Listening, sir. Speak your command.";
+      };
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        runCommand(transcript);
+      };
+
+      recognition.onerror = (event) => {
+        let message = "Voice recognition error: " + event.error + ".";
+
+        if (event.error === "not-allowed") {
+          message = "Microphone permission was denied. Allow microphone access in your browser settings.";
+        } else if (event.error === "no-speech") {
+          message = "No speech detected. Please try again.";
+        } else if (event.error === "network") {
+          message = "The recognition service had a network issue. Check your connection and try again.";
+        }
+
+        statusText.textContent = message;
+        log(message);
+      };
+
+      recognition.onend = () => {
+        isListening = false;
+        voiceButton.classList.remove("listening");
+        voiceButton.textContent = "🎙 ACTIVATE MICROPHONE";
+        $("voiceStatus").textContent = "READY";
+      };
+
+      voiceButton.addEventListener("click", () => {
+        if (isListening) {
+          stopListening();
+          return;
+        }
+
+        try {
+          window.speechSynthesis?.cancel();
+          recognition.start();
+        } catch (error) {
+          statusText.textContent =
+            "Could not start the microphone. Please wait a moment and try again.";
+        }
+      });
+    }
+
+    $("speakButton").addEventListener("click", () => {
+      speak("Good evening, sir. JARVIS voice output is online.");
+      statusText.textContent = "Testing speech output.";
+    });
+
+    $("stopButton").addEventListener("click", () => {
+      window.speechSynthesis?.cancel();
+      stopListening();
+      statusText.textContent = "Voice output stopped.";
+    });
+  </script>
+</body>
+</html>
